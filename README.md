@@ -13,6 +13,11 @@ Moneypenny talks to `oo7-daemon` over the standard Secret Service D-Bus API,
 using oo7's own Rust client library, so it sees exactly the keyrings every
 other app on your system sees.
 
+<p align="center">
+  <img src="docs/screenshot.png" width="860"
+       alt="Moneypenny in its dark Black Tie theme: a Keyrings sidebar with Login (default), a locked Work keyring and Session, next to the six secrets in Login, such as GitHub, a Wi-Fi password and an SSH key passphrase">
+</p>
+
 > **0.1.0** is the first release, for Fedora 45 and later (x86_64).
 > [Download the RPM](https://github.com/neuralpunk/Moneypenny/releases/latest).
 

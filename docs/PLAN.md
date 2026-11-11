@@ -188,4 +188,4 @@ selected keyring; a 1 px gold trim under header bars. Tokens live in
 - Set default keyring once oo7-daemon saves aliases and clears the old default
   (see Phase 4 notes); worth reporting upstream.
 - A real app icon (the current one is a placeholder).
-- Screenshots in the README and the AppStream metainfo.
+- Screenshots in the AppStream metainfo (the README has one: `docs/screenshot.png`, taken from `pnpm dev` sample data).
