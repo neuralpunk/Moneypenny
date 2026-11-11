@@ -1,0 +1,42 @@
+[package]
+name = "moneypenny"
+version = "0.1.0"
+description = "A GNOME-style front end for the oo7 Secret Service"
+edition = "2024"
+rust-version = "1.95"
+license = "GPL-3.0-or-later"
+homepage = "https://github.com/neuralpunk/Moneypenny"
+repository = "https://github.com/neuralpunk/Moneypenny"
+
+[lib]
+name = "moneypenny_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+ashpd = { version = "0.14", default-features = false, features = ["tokio", "settings"] }
+futures-util = "0.3"
+log = "0.4"
+oo7 = "0.7.1"
+thiserror = "2"
+tokio = { version = "1", features = ["sync", "time"] }
+zeroize = "1"
+env_logger = { version = "0.11", default-features = false, features = ["auto-color", "humantime"] }
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time", "process", "io-util"] }
+zbus = { version = "6", default-features = false, features = ["tokio"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+gtk = "0.18"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

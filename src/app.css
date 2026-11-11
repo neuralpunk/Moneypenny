@@ -1,0 +1,433 @@
+@import "tailwindcss";
+
+/*
+ * Adwaita design tokens, mirroring libadwaita 1.6+ named colours, in the
+ * "Black Tie" palette: deeper neutrals, champagne gold as the accent and a
+ * one-pixel gold trim under header bars. Layout and widgets stay Adwaita.
+ * The scheme is driven by data attributes set from the XDG Settings portal
+ * (see src/lib/desktop.svelte.ts), not by prefers-color-scheme, because
+ * WebKitGTK doesn't follow GNOME's dark-style preference on its own.
+ */
+:root {
+  color-scheme: light;
+
+  /* Accent: Black Tie champagne gold (fixed; doesn't follow the system accent). */
+  --accent-bg-color: #c9a961;
+  --accent-fg-color: #1a1406;
+  --accent-color: #7f6420;
+  --headerbar-trim: rgb(160 128 50 / 60%);
+  --sidebar-selected-bg: rgb(127 100 32 / 11%);
+  --sidebar-selected-fg: #6e561b;
+
+  --destructive-bg-color: #e01b24;
+  --destructive-fg-color: #ffffff;
+  --destructive-color: oklab(from var(--destructive-bg-color) min(l, 0.5) a b);
+  --success-bg-color: #2ec27e;
+  --success-color: oklab(from var(--success-bg-color) min(l, 0.5) a b);
+  --warning-bg-color: #e5a50a;
+  --warning-color: oklab(from var(--warning-bg-color) min(l, 0.5) a b);
+  --error-bg-color: #e01b24;
+  --error-color: oklab(from var(--error-bg-color) min(l, 0.5) a b);
+
+  --window-bg-color: #fafafa;
+  --window-fg-color: #18181b;
+  --view-bg-color: #ffffff;
+  --view-fg-color: #18181b;
+  --headerbar-bg-color: #ffffff;
+  --headerbar-fg-color: rgb(0 0 6 / 80%);
+  --headerbar-backdrop-color: #fafafb;
+  --headerbar-shade-color: rgb(0 0 6 / 12%);
+  --sidebar-bg-color: #ececee;
+  --sidebar-fg-color: #18181b;
+  --sidebar-backdrop-color: #f3f3f4;
+  --sidebar-shade-color: rgb(0 0 6 / 7%);
+  --card-bg-color: #ffffff;
+  --card-fg-color: #18181b;
+  --card-shade-color: rgb(0 0 6 / 7%);
+  --dialog-bg-color: #fafafb;
+  --popover-bg-color: #ffffff;
+  --shade-color: rgb(0 0 6 / 7%);
+  --scrollbar-outline-color: #ffffff;
+
+  --border-opacity: 15%;
+  --dim-opacity: 55%;
+  --disabled-opacity: 50%;
+  --border-color: color-mix(in srgb, currentColor var(--border-opacity), transparent);
+  --window-outline-color: rgb(0 0 6 / 23%);
+
+  --window-radius: 12px;
+  --button-radius: 6px;
+  --card-radius: 12px;
+
+  --font-sans: "Adwaita Sans", "Cantarell", "Inter", sans-serif;
+  --font-mono: "Adwaita Mono", "Source Code Pro", monospace;
+}
+
+:root[data-scheme="dark"] {
+  color-scheme: dark;
+
+  --accent-bg-color: #cdb06a;
+  --accent-fg-color: #15110a;
+  --accent-color: #d9bf7f;
+  --headerbar-trim: rgb(205 176 106 / 55%);
+  --sidebar-selected-bg: rgb(217 191 127 / 11%);
+  --sidebar-selected-fg: #e2c98a;
+  --destructive-bg-color: #c01c28;
+  --destructive-color: oklab(from var(--destructive-bg-color) max(l, 0.85) a b);
+  --success-bg-color: #26a269;
+  --success-color: oklab(from var(--success-bg-color) max(l, 0.85) a b);
+  --warning-bg-color: #cd9309;
+  --warning-color: oklab(from var(--warning-bg-color) max(l, 0.85) a b);
+  --error-bg-color: #c01c28;
+  --error-color: oklab(from var(--error-bg-color) max(l, 0.85) a b);
+
+  --window-bg-color: #111113;
+  --window-fg-color: #f3f2ef;
+  --view-bg-color: #0e0e10;
+  --view-fg-color: #f3f2ef;
+  --headerbar-bg-color: #111113;
+  --headerbar-fg-color: #f3f2ef;
+  --headerbar-backdrop-color: #111113;
+  --headerbar-shade-color: rgb(0 0 0 / 50%);
+  --sidebar-bg-color: #19191c;
+  --sidebar-fg-color: #f3f2ef;
+  --sidebar-backdrop-color: #151518;
+  --sidebar-shade-color: rgb(0 0 0 / 40%);
+  --card-bg-color: #1e1e22;
+  --card-fg-color: #f3f2ef;
+  --card-shade-color: rgb(0 0 0 / 55%);
+  --dialog-bg-color: #1a1a1d;
+  --popover-bg-color: #1e1e22;
+  --shade-color: rgb(0 0 0 / 40%);
+  --scrollbar-outline-color: rgb(0 0 12 / 95%);
+  --window-outline-color: rgb(255 255 255 / 6%);
+}
+
+:root[data-contrast="high"] {
+  --border-opacity: 50%;
+  --dim-opacity: 90%;
+  --window-outline-color: color-mix(in srgb, var(--window-fg-color) 50%, transparent);
+}
+
+/* Expose the tokens to Tailwind utilities, e.g. bg-window, text-dim. */
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --color-accent: var(--accent-color);
+  --color-accent-bg: var(--accent-bg-color);
+  --color-accent-fg: var(--accent-fg-color);
+  --color-destructive: var(--destructive-color);
+  --color-destructive-bg: var(--destructive-bg-color);
+  --color-destructive-fg: var(--destructive-fg-color);
+  --color-success: var(--success-color);
+  --color-warning: var(--warning-color);
+  --color-error: var(--error-color);
+
+  --color-window: var(--window-bg-color);
+  --color-window-fg: var(--window-fg-color);
+  --color-view: var(--view-bg-color);
+  --color-view-fg: var(--view-fg-color);
+  --color-headerbar: var(--headerbar-bg-color);
+  --color-headerbar-fg: var(--headerbar-fg-color);
+  --color-sidebar: var(--sidebar-bg-color);
+  --color-sidebar-fg: var(--sidebar-fg-color);
+  --color-sidebar-backdrop: var(--sidebar-backdrop-color);
+  --color-card: var(--card-bg-color);
+  --color-card-fg: var(--card-fg-color);
+  --color-dialog: var(--dialog-bg-color);
+  --color-popover: var(--popover-bg-color);
+  --color-border: var(--border-color);
+  --color-shade: var(--shade-color);
+
+  --radius-button: var(--button-radius);
+  --radius-card: var(--card-radius);
+  --radius-window: var(--window-radius);
+}
+
+/* libadwaita typography (base 11pt). */
+@utility title-1 { font-size: 20pt; font-weight: 800; line-height: 1.2; }
+@utility title-2 { font-size: 15pt; font-weight: 800; line-height: 1.25; }
+@utility title-3 { font-size: 15pt; font-weight: 700; }
+@utility title-4 { font-size: 13pt; font-weight: 700; }
+@utility heading { font-size: 11pt; font-weight: 700; }
+@utility caption { font-size: 9pt; }
+@utility caption-heading { font-size: 9pt; font-weight: 700; }
+@utility dim { opacity: var(--dim-opacity); }
+@utility monospace { font-family: var(--font-mono); }
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    /* The window itself is transparent so #app can have rounded corners. */
+    background: transparent;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 11pt;
+    line-height: 1.4;
+    color: var(--window-fg-color);
+    cursor: default;
+    /* Labels in GTK apps aren't selectable; opt in per element with select-text. */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #app {
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--window-radius);
+    background: var(--window-bg-color);
+    box-shadow: inset 0 0 0 1px var(--window-outline-color);
+  }
+
+  :root[data-maximized] #app {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent-color) 50%, transparent);
+    outline-offset: -2px;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
+:root[data-reduced-motion] *,
+:root[data-reduced-motion] *::before,
+:root[data-reduced-motion] *::after {
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
+}
+
+/* libadwaita widget styles that are awkward as utility soup. */
+@layer components {
+  /* .boxed-list: rounded card holding rows separated by hairlines. */
+  .boxed-list {
+    background: var(--card-bg-color);
+    color: var(--card-fg-color);
+    border-radius: var(--card-radius);
+    box-shadow:
+      0 0 0 1px rgb(0 0 6 / 3%),
+      0 1px 3px 1px rgb(0 0 6 / 7%),
+      0 2px 6px 2px rgb(0 0 6 / 3%);
+    overflow: hidden;
+  }
+  :root[data-scheme="dark"] .boxed-list {
+    box-shadow: 0 0 0 1px rgb(0 0 6 / 9%), 0 1px 3px 1px rgb(0 0 6 / 9%);
+  }
+  :root[data-contrast="high"] .boxed-list {
+    box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 50%, transparent);
+  }
+  .boxed-list > * + * {
+    box-shadow: inset 0 1px var(--card-shade-color);
+  }
+  :root[data-contrast="high"] .boxed-list > * + * {
+    box-shadow: inset 0 1px color-mix(in srgb, currentColor 50%, transparent);
+  }
+
+  .activatable {
+    transition: background-color 200ms;
+  }
+  .activatable:hover {
+    background-color: color-mix(in srgb, currentColor 3%, transparent);
+  }
+  .activatable:active {
+    background-color: color-mix(in srgb, currentColor 8%, transparent);
+  }
+
+  /* .navigation-sidebar rows */
+  .sidebar-row {
+    border-radius: var(--button-radius);
+    transition: background-color 200ms;
+  }
+  .sidebar-row:hover {
+    background-color: color-mix(in srgb, currentColor 7%, transparent);
+  }
+  .sidebar-row[aria-current="true"] {
+    background-color: var(--sidebar-selected-bg);
+  }
+  .sidebar-row[aria-current="true"]:hover {
+    background-color: color-mix(in srgb, var(--sidebar-selected-bg), currentColor 4%);
+  }
+  .sidebar-row[aria-current="true"] .row-title {
+    color: var(--sidebar-selected-fg);
+  }
+
+  /* Scrollbars: thin overlay-style, like GTK. */
+  .scroll {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, currentColor 30%, transparent) transparent;
+  }
+}
+
+@layer components {
+  /* AdwDialog / AdwAlertDialog (floating). */
+  dialog.adw-dialog {
+    margin: auto;
+    padding: 0;
+    border: none;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    color: var(--window-fg-color);
+    background: var(--dialog-bg-color);
+    border-radius: 15px;
+    box-shadow:
+      0 0 0 1px rgb(0 0 6 / 9%),
+      0 1px 5px 1px rgb(0 0 6 / 9%),
+      0 2px 14px 3px rgb(0 0 6 / 5%);
+    overflow: hidden;
+  }
+  :root[data-scheme="dark"] dialog.adw-dialog {
+    box-shadow:
+      0 0 0 1px rgb(0 0 6 / 50%),
+      0 1px 5px 1px rgb(0 0 6 / 36%),
+      0 2px 14px 3px rgb(0 0 6 / 25%);
+  }
+  dialog.adw-dialog::backdrop {
+    background: rgb(0 0 6 / 25%);
+  }
+  dialog.adw-dialog[open] {
+    animation: dialog-in 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  /* AdwEntryRow: the title floats above the text once focused or filled. */
+  .entry-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 58px;
+    padding: 0 12px;
+    cursor: text;
+  }
+  .entry-row:focus-within {
+    outline: 2px solid color-mix(in srgb, var(--accent-color) 50%, transparent);
+    outline-offset: -2px;
+    border-radius: inherit;
+  }
+  .entry-row .entry-field {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    align-self: stretch;
+  }
+  .entry-row input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding-top: 18px;
+    padding-bottom: 6px;
+    background: transparent;
+    outline: none;
+  }
+  .entry-row .entry-title {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: var(--dim-opacity);
+    pointer-events: none;
+    transition: all 150ms;
+  }
+  .entry-row input:focus + .entry-title,
+  .entry-row input:not(:placeholder-shown) + .entry-title {
+    top: 8px;
+    transform: none;
+    font-size: 9pt;
+  }
+  .entry-row:focus-within .entry-title {
+    color: var(--accent-color);
+    opacity: 1;
+  }
+  .entry-row.invalid .entry-title {
+    color: var(--error-color);
+    opacity: 1;
+  }
+
+  /* Keycaps in the shortcuts dialog. */
+  .keycap {
+    display: inline-block;
+    min-width: 28px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 9pt;
+    font-weight: 700;
+    text-align: center;
+    background: color-mix(in srgb, currentColor 7%, transparent);
+    box-shadow: inset 0 -2px color-mix(in srgb, currentColor 15%, transparent);
+  }
+
+  /* GtkPopoverMenu */
+  .popover-menu {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    padding: 6px;
+    min-width: 180px;
+    border: none;
+    border-radius: 12px;
+    color: var(--window-fg-color);
+    background: var(--popover-bg-color);
+    box-shadow:
+      0 0 0 1px rgb(0 0 6 / 14%),
+      0 2px 8px 2px rgb(0 0 6 / 10%);
+  }
+  :root[data-scheme="dark"] .popover-menu {
+    box-shadow:
+      0 0 0 1px rgb(0 0 6 / 50%),
+      0 2px 8px 2px rgb(0 0 6 / 30%);
+  }
+  .popover-menu .menu-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 6px;
+    text-align: left;
+  }
+  .popover-menu .menu-item:hover,
+  .popover-menu .menu-item:focus-visible {
+    background: color-mix(in srgb, currentColor 7%, transparent);
+  }
+  .popover-menu .menu-item.destructive {
+    color: var(--destructive-color);
+  }
+  .popover-menu .menu-item:disabled {
+    opacity: var(--disabled-opacity);
+    pointer-events: none;
+  }
+  .popover-menu hr {
+    margin: 6px 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+  }
+}

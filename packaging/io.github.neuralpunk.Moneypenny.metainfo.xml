@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.neuralpunk.Moneypenny</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Moneypenny</name>
+  <summary>Manage the passwords and secrets in your keyrings</summary>
+  <description>
+    <p>
+      Moneypenny is a GNOME-style manager for the passwords and other secrets
+      that apps store in your keyrings. It works with oo7, the Secret Service
+      provider used by Fedora, and with any other Secret Service.
+    </p>
+    <ul>
+      <li>Browse and search your keyrings and the secrets in them</li>
+      <li>Reveal or copy a secret; the clipboard clears itself after 15 seconds</li>
+      <li>Add, edit and delete secrets</li>
+      <li>Create, lock, unlock and delete keyrings, and change their passwords</li>
+      <li>Updates live when other apps change your keyrings</li>
+    </ul>
+    <p>
+      Keyring passwords are always entered in the system's own password
+      dialog, never in Moneypenny.
+    </p>
+  </description>
+
+  <url type="homepage">https://github.com/neuralpunk/Moneypenny</url>
+  <url type="bugtracker">https://github.com/neuralpunk/Moneypenny/issues</url>
+  <url type="vcs-browser">https://github.com/neuralpunk/Moneypenny</url>
+
+  <launchable type="desktop-id">Moneypenny.desktop</launchable>
+  <developer id="io.github.neuralpunk">
+    <name>Moneypenny contributors</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <provides>
+    <binary>moneypenny</binary>
+  </provides>
+  <keywords>
+    <keyword>password</keyword>
+    <keyword>keyring</keyword>
+    <keyword>secret</keyword>
+    <keyword>oo7</keyword>
+  </keywords>
+
+  <releases>
+    <release version="0.1.0" date="2026-11-11">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+</component>
